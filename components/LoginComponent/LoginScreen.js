@@ -30,7 +30,7 @@ export default class LoginScreen extends React.Component {
                 />
                 <View style={styles.logoContainer}>
                     <Image style={styles.logo}
-                           source={{uri: "https://i.pinimg.com/originals/a0/1f/a1/a01fa10acb4a708d6f586851de36534f.jpg"}}
+                           source={{uri: "https://pics.clipartpng.com/White_Face_Mask_PNG_Clipart-3285.png"}}
                     />
                 </View>
                 <KeyboardAvoidingView behavior="position">

@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Camera_v2 from './components/screens/Camera_v2';
-import Test from "./components/screens/Test";
 import {createBottomTabNavigator} from "react-navigation-tabs";
 import {createAppContainer} from "react-navigation";
 import {createStackNavigator} from "react-navigation-stack";
