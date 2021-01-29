@@ -6,25 +6,54 @@ import Test from "./components/screens/Test";
 import {createBottomTabNavigator} from "react-navigation-tabs";
 import {createAppContainer} from "react-navigation";
 import {Entypo} from '@expo/vector-icons';
+import DesignMBScreen from "./components/screens/DesignMBScreen";
+import UserScreen from "./components/screens/UserScreen";
 
 
+
+
+// --------------------- FIREBASE IMPL. START ---------------------
+
+// --------------------- FIREBASE IMPL. SLUT ---------------------
+
+// --------------------- LOGIN IMPL. START ---------------------
+
+
+// --------------------- LOGIN IMPL. SLUT ---------------------
+
+
+
+
+
+
+// --------------------- BOTTOM NAVIGATOR START ---------------------
 const tabNavigator = createBottomTabNavigator(
     {
-        Test: {
-            screen: Test,
+        Design: {
+            screen: DesignMBScreen,
             navigationOptions: {
-                tabBarLabel: "Test",
+                tabBarLabel: "Design",
                 tabBarIcon: ({tintColor}) => (
                     <Entypo name="edit" size={24} color={tintColor}/>
                 )
             },
         },
+
         Camera: {
             screen: Camera_v2,
             navigationOptions: {
                 tabBarLabel: "Try",
                 tabBarIcon: ({tintColor}) => (
                     <Entypo name="camera" size={24} color={tintColor}/>
+                )
+            },
+        },
+        User: {
+            screen: UserScreen,
+            navigationOptions: {
+                tabBarLabel: "User",
+                tabBarIcon: ({tintColor}) => (
+                    <Entypo name="edit" size={24} color={tintColor}/>
                 )
             },
         },
@@ -43,6 +72,8 @@ const tabNavigator = createBottomTabNavigator(
 );
 
 const AppNav = createAppContainer(tabNavigator);
+
+// --------------------- BOTTOM NAVIGATOR SLUT ---------------------
 
 
 export default class App extends React.Component {

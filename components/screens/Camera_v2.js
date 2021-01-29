@@ -5,6 +5,7 @@ import * as FaceDetector from "expo-face-detector";
 import * as Permissions from "expo-permissions";
 import {NavigationEvents} from 'react-navigation';
 
+
 export default class CameraComponent extends Component {
 
     cameraRef = React.createRef();
