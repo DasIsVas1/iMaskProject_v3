@@ -5,7 +5,7 @@ import Camera_v2 from './components/screens/Camera_v2';
 import {createBottomTabNavigator} from "react-navigation-tabs";
 import {createAppContainer} from "react-navigation";
 import {createStackNavigator} from "react-navigation-stack";
-import {Entypo} from '@expo/vector-icons';
+import {Entypo, Ionicons} from '@expo/vector-icons';
 import DesignMBScreen from "./components/screens/DesignMBScreen";
 import UserScreen from "./components/screens/UserScreen";
 import firebase from "firebase";
@@ -41,6 +41,7 @@ const LoginNavigator = createStackNavigator(
         SignUp: {screen: SignUpScreen},
     },
 );
+
 
 const LoginContainer = createAppContainer(LoginNavigator);
 
@@ -78,7 +79,7 @@ const tabNavigator = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: "User",
                 tabBarIcon: ({tintColor}) => (
-                    <Entypo name="edit" size={24} color={tintColor}/>
+                    <Ionicons name="ios-settings" size={24} color={tintColor}/>
                 )
             },
         },

@@ -1,9 +1,11 @@
 import React, {Component} from "react";
-import {Text, View, Image, StyleSheet} from "react-native";
+import {Text, View, Image, StyleSheet, Button, TouchableOpacity} from "react-native";
 import {Camera} from "expo-camera";
 import * as FaceDetector from "expo-face-detector";
 import * as Permissions from "expo-permissions";
 import {NavigationEvents} from 'react-navigation';
+import * as MediaLibrary from 'expo-media-library';
+
 
 
 export default class CameraComponent extends Component {
@@ -16,32 +18,85 @@ export default class CameraComponent extends Component {
     };
 
     async componentDidMount() {
-        const {status} = await Permissions.askAsync(Permissions.CAMERA);
+        const {status} = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
         this.setState({hasCameraPermission: status === "granted"});
 
     }
 
-    // Kode stykke, som burde håndtere at kamera bliver sort når man skifter via navigation, dog skal jeg finde en metode
-    // så jeg kan implementere det i en async componentDidMountMetode()
+
+/*
+
+    handleTakePhoto = async () => {
+        if (!this.res.current) {
+            return;
+        }
+        const result = await this.res.current.takePictureAsync();
+        //this.props.navigation.navigate(PHOTO_PREVIEW,{lastPhoto: result.uri})
+        this.setState({lastPhoto: result.uri});
+        this.handleSaveToCameraRoll(this.state.lastPhoto)
+    };
+
+    handleSaveToCameraRoll = async uri => {
+        try {
+            await MediaLibrary.createAssetAsync(uri, 'photo');
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+ */
+
+    takePicture = async () => {
+        if(this.cameraRef) {
+            const {uri} = await this.cameraRef.takePictureAsync();
+            const asset = await MediaLibrary.createAssetAsync(uri);
+            console.log(asset);
+            //this.cameraRef.takePictureAsync({onPictureSaved: this.onPictureSaved});
+
+
+
+            //this.setState({lastPhoto: result.uri});
+            //this.handleSaveToCameraRoll(this.state.lastPhoto)
+        }
+    };
+
+
+/*
+    takePicture = () => {
+        if(this.cameraRef) {
+            const {uri} = this.cameraRef.takePictureAsync();
+            const asset = MediaLibrary.createAssetAsync(uri);
+            console.log(asset);
+            //this.cameraRef.takePictureAsync({onPictureSaved: this.onPictureSaved});
+
+
+
+            //this.setState({lastPhoto: result.uri});
+            //this.handleSaveToCameraRoll(this.state.lastPhoto)
+        }
+    };
+
+ */
 
     /*
 
-    componentDidMount() {
-        this.updateNavigation();
-    }
-
-    updateNavigation = async () => {
-
-        const {navigation} = this.props;
-        navigation.addListener('willFocus', () =>
-            this.setState({focusedScreen: true})
-        );
-        navigation.addListener('willBlur', () =>
-            this.setState({focusedScreen: false})
-        );
+    onPictureSaved = photo => {
+        console.log(photo);
     }
 
      */
+
+
+
+
+
+
+
+
+
+
+
 
     render() {
         const {loaded} = this.state;
@@ -49,14 +104,15 @@ export default class CameraComponent extends Component {
             <View style={{width: "100%", flex: 1}}>
                 <NavigationEvents
                     onWillFocus={payload => this.setState({loaded: true})}
-                    onDidBlur={payload => this.setState({loaded: false})} />
-                    <View style={{width: "100%", flex: 1}}>
-                        {loaded && (
+                    onDidBlur={payload => this.setState({loaded: false})}/>
+                <View style={{width: "100%", flex: 1}}>
+                    {loaded && (
 
 
                         <Camera
+                            ref={(ref) => {this.cameraRef=ref}}
                             type={Camera.Constants.Type.front}
-                            style={{flex: 1, width: "100%"}}
+                            style={{flex: 1, width: "100%", borderRadius: 5}}
                             onFacesDetected={res => {
                                 console.log(res);
                                 if (res.faces[0]) {
@@ -98,17 +154,21 @@ export default class CameraComponent extends Component {
 
                                     >
 
-                                        <Image style={styles.logo}
+                                        <Image
+                                            style={styles.logo}
                                                source={{uri: "https://pics.clipartpng.com/White_Face_Mask_PNG_Clipart-3285.png"}}
                                         />
                                     </View>
                                 </View>
                             ) : null}
                         </Camera>
-                        )}
+                    )}
 
-                    </View>
+                </View>
 
+                <TouchableOpacity onPress={this.takePicture} style={styles.capture}>
+                    <Text style={styles.snapText}>SNAP</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -124,5 +184,20 @@ const styles = StyleSheet.create({
         marginRight: 10,
         alignSelf: 'center',
     },
-
+    btn1: {
+        width: "100%",
+    },
+    capture: {
+        flex: 0,
+        backgroundColor: '#ecf0f1',
+        borderRadius: 5,
+        padding: 15,
+        paddingHorizontal: 20,
+        alignSelf: 'center',
+        margin: 10,
+    },
+    snapText: {
+        fontSize: 14,
+        color: 'black',
+    },
 });
