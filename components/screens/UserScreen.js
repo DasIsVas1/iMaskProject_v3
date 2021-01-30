@@ -5,6 +5,7 @@ import YourDesignsScreen from "../appDrawer/YourDesignsScreen";
 import ProfileScreen from '../appDrawer/ProfileScreen';
 import {createAppContainer} from "react-navigation";
 import KoebsScreen from "../appDrawer/KoebsScreen";
+import Galleri from "../appDrawer/Galleri";
 import firebase from "firebase";
 
 /*
@@ -14,12 +15,11 @@ Denne klasse er selve AppDrawer funktionen. Her kan man refferer til den andre s
 
 const MyDrawerNavigator = createDrawerNavigator(
     {
-        /*
+
         Designs: {
-            screen: YourDesignsScreen
+            screen: Galleri
         },
 
-         */
         Profile: {
             screen: ProfileScreen
         },

@@ -6,6 +6,17 @@ import * as Permissions from "expo-permissions";
 import {NavigationEvents} from 'react-navigation';
 import * as MediaLibrary from 'expo-media-library';
 
+/*
+* cameraRef = Referencen til Kameraet
+* ComponentDiMount fortæller at der skal oprettes tiiladelse til brug af kamera og kamerarullen
+* takePicture funktionen sørger for at der tages et billede og det gemmes til kamerarullen
+* render metoden er render til at vise hele screen
+*   onWillFocus og blur sørger for at kaeraet ikke går i sort når der skiftes screens gennem navigation + loaded metoden før <Camera>
+*   onFacesDetected er den metode som fortæller om der er et ansigt på kameraet
+*       FaceSquare er den metode som står for at tracke et ansigt --> Height, width og margins sættes efter ansigt dimensioner
+*          Sidst indsættres der et billede i den "usyndlige" forikant som tracker ansigtet automatisk
+*
+ */
 
 
 export default class CameraComponent extends Component {
@@ -23,80 +34,13 @@ export default class CameraComponent extends Component {
 
     }
 
-
-/*
-
-    handleTakePhoto = async () => {
-        if (!this.res.current) {
-            return;
-        }
-        const result = await this.res.current.takePictureAsync();
-        //this.props.navigation.navigate(PHOTO_PREVIEW,{lastPhoto: result.uri})
-        this.setState({lastPhoto: result.uri});
-        this.handleSaveToCameraRoll(this.state.lastPhoto)
-    };
-
-    handleSaveToCameraRoll = async uri => {
-        try {
-            await MediaLibrary.createAssetAsync(uri, 'photo');
-
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
- */
-
     takePicture = async () => {
-        if(this.cameraRef) {
+        if (this.cameraRef) {
             const {uri} = await this.cameraRef.takePictureAsync();
             const asset = await MediaLibrary.createAssetAsync(uri);
             console.log(asset);
-            //this.cameraRef.takePictureAsync({onPictureSaved: this.onPictureSaved});
-
-
-
-            //this.setState({lastPhoto: result.uri});
-            //this.handleSaveToCameraRoll(this.state.lastPhoto)
         }
     };
-
-
-/*
-    takePicture = () => {
-        if(this.cameraRef) {
-            const {uri} = this.cameraRef.takePictureAsync();
-            const asset = MediaLibrary.createAssetAsync(uri);
-            console.log(asset);
-            //this.cameraRef.takePictureAsync({onPictureSaved: this.onPictureSaved});
-
-
-
-            //this.setState({lastPhoto: result.uri});
-            //this.handleSaveToCameraRoll(this.state.lastPhoto)
-        }
-    };
-
- */
-
-    /*
-
-    onPictureSaved = photo => {
-        console.log(photo);
-    }
-
-     */
-
-
-
-
-
-
-
-
-
-
-
 
     render() {
         const {loaded} = this.state;
@@ -107,10 +51,10 @@ export default class CameraComponent extends Component {
                     onDidBlur={payload => this.setState({loaded: false})}/>
                 <View style={{width: "100%", flex: 1}}>
                     {loaded && (
-
-
                         <Camera
-                            ref={(ref) => {this.cameraRef=ref}}
+                            ref={(ref) => {
+                                this.cameraRef = ref
+                            }}
                             type={Camera.Constants.Type.front}
                             style={{flex: 1, width: "100%", borderRadius: 5}}
                             onFacesDetected={res => {
@@ -130,8 +74,6 @@ export default class CameraComponent extends Component {
                                         faceSquare: {}
                                     });
                                 }
-
-
                             }}
                             faceDetectorSettings={{
                                 mode: FaceDetector.Constants.Mode.fast,
@@ -156,7 +98,7 @@ export default class CameraComponent extends Component {
 
                                         <Image
                                             style={styles.logo}
-                                               source={{uri: "https://pics.clipartpng.com/White_Face_Mask_PNG_Clipart-3285.png"}}
+                                            source={{uri: "https://pics.clipartpng.com/White_Face_Mask_PNG_Clipart-3285.png"}}
                                         />
                                     </View>
                                 </View>
